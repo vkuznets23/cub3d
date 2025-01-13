@@ -1,12 +1,47 @@
-CC = gcc
-CFLAGS = -I./MLX42/include
-LDFLAGS = -L./MLX42/build -lMLX42 -lglfw -ldl -lm
-SRC = main.c
-OUT = cub3d
+# Variables
+NAME = cub3d
+SRCS = main.c moving_utls.c utils.c raycasting.c # Add other source files here
+OBJS = $(SRCS:.c=.o)
 
-all:
-	$(CC) $(SRC) $(CFLAGS) $(LDFLAGS) -o $(OUT)
+# Paths
+MLX42_DIR = ./MLX42
+LIBFT_DIR = ./libft
+MLX42_BUILD_DIR = $(MLX42_DIR)/build
+MLX42_INCLUDE_DIR = $(MLX42_DIR)/include
+GLFW_LIB = $(MLX42_BUILD_DIR)/_deps/glfw-build/src/libglfw3.a
+LIBFT = $(LIBFT_DIR)/libft.a
 
+# Compiler and flags
+CC = cc
+CFLAGS = -I$(MLX42_INCLUDE_DIR) -I$(LIBFT_DIR)  # Include libft headers
+LDFLAGS = $(MLX42_BUILD_DIR)/libmlx42.a $(GLFW_LIB) -ldl -pthread -lm -lX11 $(LIBFT)
+
+# Targets
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $(NAME)
+
+# Compile object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Build libft.a
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
+# Clean object files
 clean:
-	rm -f $(OUT)
+	rm -f $(OBJS)
+
+# Clean object files and libft.a
+fclean: clean
+	rm -f $(NAME)
+	rm -f $(LIBFT)
+
+# Rebuild everything
+re: fclean all
+
+.PHONY: all clean fclean re $(LIBFT)
+
 
