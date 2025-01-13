@@ -14,7 +14,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 # Compiler and flags
 CC = cc
 CFLAGS = -I$(MLX42_INCLUDE_DIR) -I$(LIBFT_DIR)  # Include libft headers
-LDFLAGS = $(MLX42_BUILD_DIR)/libmlx42.a $(GLFW_LIB) -ldl -pthread -lm -lX11 $(LIBFT)
+LDFLAGS = -L./MLX42/build -lMLX42 -lglfw -ldl -lm $(LIBFT)
 
 # Targets
 all: $(NAME)

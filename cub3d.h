@@ -1,5 +1,5 @@
 # ifndef CUB3D_H
-# define DUB3D_
+# define CUB3D_H
 
 # include <string.h>
 # include <stdlib.h>
