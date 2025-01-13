@@ -1,6 +1,6 @@
 # Variables
 NAME = cub3d
-SRCS = main.c moving_utls.c utils.c raycasting.c # Add other source files here
+SRCS = main.c moving_utls.c utils.c raycasting.c minimap.c# Add other source files here
 OBJS = $(SRCS:.c=.o)
 
 # Paths

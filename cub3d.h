@@ -10,7 +10,7 @@
 
 # define SCREEN_WIDTH 1900
 # define SCREEN_HEIGHT 1000
-# define TILE_SIZE 30       // ill need it for my textures (means that 1 tile is 30x30 px)
+# define TILE_SIZE 64       // ill need it for my textures (means that 1 tile is 30x30 px)
 # define FOV 60             // field of view 60 is comon first person angle
 # define ROTATION_SPEED 0.045   // rotation speed
 # define PLAYER_SPEED 4         // player speed

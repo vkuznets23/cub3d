@@ -49,59 +49,67 @@ static void    move_player(t_mlx *mlx, int move_x, int move_y)
 	new_x = roundf(mlx->player->player_x + move_x);
 	new_y = roundf(mlx->player->player_y + move_y);
 
-	mlx->player->player_x = new_x;
-	mlx->player->player_y = new_y;
+	int map_grid_x = (new_x / TILE_SIZE); // get the x position in the map
+	int map_grid_y = (new_y / TILE_SIZE); // get the y position in the map
+	if (mlx->map->map[map_grid_y][map_grid_x] != '1' && \
+	(mlx->map->map[map_grid_y][mlx->player->player_x / TILE_SIZE] != '1' && \
+	mlx->map->map[mlx->player->player_y / TILE_SIZE][map_grid_x] != '1')) // check the
+
+	{
+		mlx->player->player_x = new_x;
+		mlx->player->player_y = new_y;
+	}
 }
 
 static void    rotate_player(t_mlx *mlx, int i)
 {
-    if (i == 1)
-    {
-        //causes the player to rotate in the clockwise direction
-        mlx->player->angle += ROTATION_SPEED; //right
-        //This ensures that once the angle exceeds 360°, it resets back to 0, preventing the angle from growing indefinitely.
-        if (mlx->player->angle > 2 * M_PI)
-            mlx->player->angle -= 2 * M_PI;
-    }
-    else
-    {
-        mlx->player->angle -= ROTATION_SPEED; //left
-        if (mlx->player->angle < 0)
-            mlx->player->angle += 2 * M_PI;
-    }
+	if (i == 1)
+	{
+		//causes the player to rotate in the clockwise direction
+		mlx->player->angle += ROTATION_SPEED; //right
+		//This ensures that once the angle exceeds 360°, it resets back to 0, preventing the angle from growing indefinitely.
+		if (mlx->player->angle > 2 * M_PI)
+			mlx->player->angle -= 2 * M_PI;
+	}
+	else
+	{
+		mlx->player->angle -= ROTATION_SPEED; //left
+		if (mlx->player->angle < 0)
+			mlx->player->angle += 2 * M_PI;
+	}
 }
 
 void    hook(t_mlx *mlx, int move_x, int move_y)
 {
-    //rotation
-    if (mlx->player->rotation == 1) //right
-        rotate_player(mlx, 1);
-    if (mlx->player->rotation == -1) //left
-        rotate_player(mlx, 0);
+	//rotation
+	if (mlx->player->rotation == 1) //right
+		rotate_player(mlx, 1);
+	if (mlx->player->rotation == -1) //left
+		rotate_player(mlx, 0);
 
-    //moving left and right
-    if (mlx->player->left_right == 1)   //right
-    {
-        move_x = -sin(mlx->player->angle) * PLAYER_SPEED;
-        move_y = cos(mlx->player->angle) * PLAYER_SPEED;
-    }
-    if (mlx->player->left_right == -1)            // move left
-    {
-        move_x = sin(mlx->player->angle) * PLAYER_SPEED;
-        move_y = -cos(mlx->player->angle) * PLAYER_SPEED;
-    }
+	//moving left and right
+	if (mlx->player->left_right == 1)   //right
+	{
+		move_x = -sin(mlx->player->angle) * PLAYER_SPEED;
+		move_y = cos(mlx->player->angle) * PLAYER_SPEED;
+	}
+	if (mlx->player->left_right == -1)            // move left
+	{
+		move_x = sin(mlx->player->angle) * PLAYER_SPEED;
+		move_y = -cos(mlx->player->angle) * PLAYER_SPEED;
+	}
 
-    //up and dow
-    if (mlx->player->up_down == 1)   //up
-    {
-        move_y = sin(mlx->player->angle) * PLAYER_SPEED;
-        move_x = cos(mlx->player->angle) * PLAYER_SPEED;
-    }
-    if (mlx->player->up_down == -1)   //up
-    {
-        move_y = -sin(mlx->player->angle) * PLAYER_SPEED;
-        move_x = -cos(mlx->player->angle) * PLAYER_SPEED;
-    }
+	//up and dow
+	if (mlx->player->up_down == 1)   //up
+	{
+		move_y = sin(mlx->player->angle) * PLAYER_SPEED;
+		move_x = cos(mlx->player->angle) * PLAYER_SPEED;
+	}
+	if (mlx->player->up_down == -1)   //up
+	{
+		move_y = -sin(mlx->player->angle) * PLAYER_SPEED;
+		move_x = -cos(mlx->player->angle) * PLAYER_SPEED;
+	}
 
-    move_player(mlx, move_x, move_y);  
+	move_player(mlx, move_x, move_y);  
 }

@@ -11,7 +11,6 @@ void    game_loop(void *MLX)
     hook(mlx, 0, 0);
     //raycasting
     cast_rays(mlx);
-
     mlx_image_to_window(mlx->mlx_p, mlx->img, 0, 0);
 }
 
@@ -60,8 +59,8 @@ t_map *init_map()
     //i need to calculate how many lines are in the map????
     map_data->map = ft_calloc(6, sizeof(char *)); //!!!!!!!!
     map_data->map[0] = ft_strdup("1111111111111");
-    map_data->map[1] = ft_strdup("10000000000P1");
-    map_data->map[2] = ft_strdup("1000000000001");
+    map_data->map[1] = ft_strdup("1000000100001");
+    map_data->map[2] = ft_strdup("100P000100001");
     map_data->map[3] = ft_strdup("1000000000001");
     map_data->map[4] = ft_strdup("1111111111111");
     map_data->map[5] = NULL;
