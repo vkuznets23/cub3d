@@ -80,14 +80,14 @@ t_data *init()
     dt->map[5] = NULL;
 
     dt->ff_c = ft_calloc(3, sizeof(char *));
-    dt->ff_c[0] = "218";
-    dt->ff_c[1] = "165";
-    dt->ff_c[2] = "32";
+    dt->ff_c[0] = "112";
+    dt->ff_c[1] = "128";
+    dt->ff_c[2] = "144";
 
     dt->cc_c = ft_calloc(3, sizeof(char *));
-    dt->cc_c[0] = "173";
-    dt->cc_c[1] = "216";
-    dt->cc_c[2] = "230";
+    dt->cc_c[0] = "211";
+    dt->cc_c[1] = "211";
+    dt->cc_c[2] = "211";
 
     //manually set player position / map with and hight according to the map 
     // cos we dont want to reach "not right"  memory
