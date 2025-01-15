@@ -49,7 +49,7 @@ void    start_the_game(t_data *dt)
     mlx.textures = ft_calloc(1, sizeof(t_textures));
     mlx.mlx_p = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3d", 1);
     //TEXTURES
-    mlx.textures->north = mlx_load_png("/home/vkuznets/core_study/cub3d/textures/wall_north.png");
+    mlx.textures->north = mlx_load_png("./textures/wall_north.png");
     if (!mlx.textures->north){
         printf("Failed to load north texture");
         exit(1);
@@ -79,15 +79,13 @@ t_data *init()
     dt->map[4] = ft_strdup("1111111111111");
     dt->map[5] = NULL;
 
-    dt->ff_c = ft_calloc(3, sizeof(char *));
-    dt->ff_c[0] = "112";
-    dt->ff_c[1] = "128";
-    dt->ff_c[2] = "144";
+    dt->ff_c[0] = 112;
+    dt->ff_c[1] = 128;
+    dt->ff_c[2] = 144;
 
-    dt->cc_c = ft_calloc(3, sizeof(char *));
-    dt->cc_c[0] = "211";
-    dt->cc_c[1] = "211";
-    dt->cc_c[2] = "211";
+    dt->cc_c[0] = 211;
+    dt->cc_c[1] = 211;
+    dt->cc_c[2] = 211;
 
     //manually set player position / map with and hight according to the map 
     // cos we dont want to reach "not right"  memory

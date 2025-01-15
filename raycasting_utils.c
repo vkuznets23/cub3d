@@ -1,7 +1,15 @@
 #include "cub3d.h"
 
-//so we need this one to prevent overflow kinda? to be in the range of 360 degree
-float	nor_angle(float angle)	// normalize the angle
+/**
+ * Normalizes an angle to the range [0, 2π].
+ *
+ * Ensures the angle is wrapped within a full circle, adjusting it if it is
+ * less than 0 or greater than 2π.
+ *
+ * @angle The angle in radians.
+ * @return The normalized angle in radians.
+ */
+float	nor_angle(float angle)
 {
 	if (angle < 0)
 		angle += (2 * M_PI);
@@ -10,11 +18,17 @@ float	nor_angle(float angle)	// normalize the angle
 	return (angle);
 }
 
-//unit_circle checks which direction the ray is moving:
-//'x': Is the ray moving down? (Top half of the unit circle: 0 to π)
-//'y': Is the ray moving left? (Left half of the unit circle: π/2 to 3π/2)
-//It only tells the general direction of the ray (up/down or left/right) without modifying anything.
-int	unit_circle(float angle, char c)	// check the unit circle
+/**
+ * Determines the ray's quadrant for x or y direction.
+ *
+ * Based on the given angle, determines whether the ray is moving in the
+ * positive or negative direction along the x or y-axis.
+ *
+ * @angle The angle in radians.
+ * @c A character ('x' or 'y') indicating the axis to check.
+ * @return 1 if the ray moves positively along the specified axis, 0 otherwise.
+ */
+int	unit_circle(float angle, char c)
 {
 	if (c == 'x')
 	{
@@ -29,45 +43,64 @@ int	unit_circle(float angle, char c)	// check the unit circle
 	return (0);
 }
 
-// Adjusts the initial intersection and step direction based on the ray's direction and grid type (horizontal or vertical)
-//insimlple words: Ensures the ray starts at the correct initial grid line (horizontal or vertical)!!
-int inter_check(float angle, float *inter, float *step, int is_horizon)
+/**
+ * Adjusts initial intersection and step values based on ray direction.
+ *
+ * For horizontal or vertical intersections, adjusts the starting intersection 
+ * position and step size depending on the angle of the ray. It also determines 
+ * the direction to step in.
+ *
+ * @angle The angle of the ray in radians.
+ * @inter Pointer to the initial intersection coordinate (x or y).
+ * @step Pointer to the step size (x or y).
+ * @is_horizon Set to 1 for horizontal intersections, 0 for vertical.
+ * @return -1 for upward or leftward direction, 1 otherwise.
+ */
+int	inter_check(float angle, float *inter, float *step, int is_horizon)
 {
-    //This range corresponds to rays that are moving in the top half of the unit circle (UP DOWN) -> horizontal lines
-    if (is_horizon)
-    {
-        if (angle > 0 && angle < M_PI)
-        {
-            *inter += TILE_SIZE;
-            return (-1); 
-        }
-        //if its not in the right range we flip the direction of the step
-        *step *= -1;
-    }
-    //adjusts the ray's position as it moves across vertical grid lines (right and left)
-    else //if its 0 we are working with vertical raycasting
-    {
-        if (!(angle > M_PI / 2 && angle < 3 * M_PI / 2))
-        {
-            *inter += TILE_SIZE;
-            return (-1);
-        }
-        *step *= -1;
-    }
-    return (1);
+	if (is_horizon)
+	{
+		if (angle > 0 && angle < M_PI)
+		{
+			*inter += TILE_SIZE;
+			return (-1);
+		}
+		*step *= -1;
+	}
+	else
+	{
+		if (!(angle > M_PI / 2 && angle < 3 * M_PI / 2))
+		{
+			*inter += TILE_SIZE;
+			return (-1);
+		}
+		*step *= -1;
+	}
+	return (1);
 }
 
-//checks if the ray has hit a wall at the current position
-//it hasn't hit a wall, the ray continues to move along the grid lines
-int	wall_hit(float x, float y, t_mlx *mlx)	// check the wall hit
+
+/**
+ * Checks whether a given map coordinate is a wall.
+ *
+ * Converts world coordinates to map grid coordinates and checks if the position
+ * corresponds to a wall ('1') in the map data. Ensures the position is within
+ * bounds before accessing the map array.
+ *
+ * @x The x-coordinate in the game world.
+ * @y The y-coordinate in the game world.
+ * @mlx Pointer to the main game structure containing map data.
+ * @return 0 if the position is a wall or out of bounds, 1 otherwise.
+ */
+int	wall_hit(float x, float y, t_mlx *mlx)
 {
 	int		x_m;
 	int		y_m;
 
 	if (x < 0 || y < 0)
 		return (0);
-	x_m = floor (x / TILE_SIZE); // get the x position in the map
-	y_m = floor (y / TILE_SIZE); // get the y position in the map
+	x_m = floor (x / TILE_SIZE);
+	y_m = floor (y / TILE_SIZE);
 	if ((y_m >= mlx->dt->h_map || x_m >= mlx->dt->w_map))
 		return (0);
 	if (mlx->dt->map[y_m] && x_m <= (int)ft_strlen(mlx->dt->map[y_m]))

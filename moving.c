@@ -1,7 +1,14 @@
 #include "cub3d.h"
 
-//this function sets player movement or rotation to 0 when a key is released
-void	ft_release(mlx_key_data_t keydata, t_mlx *mlx) // release the key
+/**
+ * This function ensures that the player's state (e.g., movement direction 
+ * or rotation) is updated appropriately when the associated key is
+ * no longer pressed.
+ *
+ * @keydata The key event data, including the key and its action.
+ * @mlx The main game structure containing player and map data.
+ */
+void	ft_release(mlx_key_data_t keydata, t_mlx *mlx)
 {
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
 		mlx->player->left_right = 0;
@@ -17,99 +24,124 @@ void	ft_release(mlx_key_data_t keydata, t_mlx *mlx) // release the key
 		mlx->player->rotation = 0;
 }
 
-//processes key presses and updates the player's movement or rotation state accordingly
-void	mlx_key(mlx_key_data_t keydata, void *ml) // key press
+/**
+ * This function maps key presses to corresponding movement or rotation flags,
+ * enabling the player to move or rotate in response to user input. It also
+ * handles the escape key for exiting the game.
+ *
+ * @keydata The key event data, including the key and its action.
+ * @ml A void pointer to the main game structure (cast to t_mlx internally).
+ */
+void	mlx_key(mlx_key_data_t keydata, void *ml)
 {
-	t_mlx *mlx;
+	t_mlx	*mlx;
 
 	mlx = ml;
-	if (keydata.key == MLX_KEY_ESCAPE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) // exit the game
-		exit(1);
-	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS)) // move left
+	if (keydata.key == MLX_KEY_ESCAPE && (keydata.action == MLX_PRESS
+			|| keydata.action == MLX_REPEAT))
+		ft_exit(mlx);
+	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
 		mlx->player->left_right = -1;
-	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS)) // move right
+	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
 		mlx->player->left_right = 1;
-	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS)) // move down
+	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS))
 		mlx->player->up_down = -1;
-	else if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS) // move up
+	else if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
 		mlx->player->up_down = 1;
-	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS) // rotate left
+	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
 		mlx->player->rotation = -1;
-	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS) // rotate right
+	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
 		mlx->player->rotation = 1;
-	ft_release(keydata, mlx); // release the key
+	ft_release(keydata, mlx);
 }
 
-static void    move_player(t_mlx *mlx, int move_x, int move_y)
+/**
+ * This function updates the player's position while performing collision
+ * detection against walls in the map. Movement is allowed only if 
+ * the target position is not inside a wall.
+ *
+ * @mlx The main game structure containing player and map data.
+ * @move_x The horizontal movement amount.
+ * @move_y The vertical movement amount.
+ */
+static void	move_player(t_mlx *mlx, int move_x, int move_y)
 {
 	int	new_x;
 	int	new_y;
+	int	map_grid_x;
+	int	map_grid_y;
 
-	//new position is on a grid of whole-number pixel value
 	new_x = roundf(mlx->player->player_x + move_x);
 	new_y = roundf(mlx->player->player_y + move_y);
-
-	int map_grid_x = (new_x / TILE_SIZE); // get the x position in the map
-	int map_grid_y = (new_y / TILE_SIZE); // get the y position in the map
-	if (mlx->dt->map[map_grid_y][map_grid_x] != '1' && \
-	(mlx->dt->map[map_grid_y][mlx->player->player_x / TILE_SIZE] != '1' && \
-	mlx->dt->map[mlx->player->player_y / TILE_SIZE][map_grid_x] != '1')) // check the
-
+	map_grid_x = (new_x / TILE_SIZE);
+	map_grid_y = (new_y / TILE_SIZE);
+	if (mlx->dt->map[map_grid_y][map_grid_x] != '1'
+		&& (mlx->dt->map[map_grid_y][mlx->player->player_x / TILE_SIZE] != '1'
+		&& mlx->dt->map[mlx->player->player_y / TILE_SIZE][map_grid_x] != '1'))
 	{
 		mlx->player->player_x = new_x;
 		mlx->player->player_y = new_y;
 	}
 }
 
-static void    rotate_player(t_mlx *mlx, int i)
+/**
+ * This function adjusts the player's angle based on the direction of rotation.
+ * It ensures the angle stays within the range [0, 2π].
+ *
+ * @mlx The main game structure containing player data.
+ * @i The rotation direction: 1 for clockwise, 0 for counterclockwise.
+ */
+static void	rotate_player(t_mlx *mlx, int i)
 {
 	if (i == 1)
 	{
-		//causes the player to rotate in the clockwise direction
-		mlx->player->angle += ROTATION_SPEED; //right
-		//This ensures that once the angle exceeds 360°, it resets back to 0, preventing the angle from growing indefinitely.
+		mlx->player->angle += ROTATION_SPEED;
 		if (mlx->player->angle > 2 * M_PI)
 			mlx->player->angle -= 2 * M_PI;
 	}
 	else
 	{
-		mlx->player->angle -= ROTATION_SPEED; //left
+		mlx->player->angle -= ROTATION_SPEED;
 		if (mlx->player->angle < 0)
 			mlx->player->angle += 2 * M_PI;
 	}
 }
 
-void    hook(t_mlx *mlx, int move_x, int move_y)
+/**
+ * This function processes the player's movement and rotation in all directions
+ * by interpreting the `left_right`, `up_down`, and `rotation` flags.
+ * It calculates movement vectors and delegates the actual movement
+ * to `move_player`.
+ *
+ * @mlx The main game structure containing player and map data.
+ * @move_x Placeholder for horizontal movement (calculated internally).
+ * @move_y Placeholder for vertical movement (calculated internally).
+ */
+void	hook(t_mlx *mlx, int move_x, int move_y)
 {
-	//rotation
-	if (mlx->player->rotation == 1) //right
+	if (mlx->player->rotation == 1)
 		rotate_player(mlx, 1);
-	if (mlx->player->rotation == -1) //left
+	if (mlx->player->rotation == -1)
 		rotate_player(mlx, 0);
-
-	//moving left and right
-	if (mlx->player->left_right == 1)   //right
+	if (mlx->player->left_right == 1)
 	{
 		move_x = -sin(mlx->player->angle) * PLAYER_SPEED;
 		move_y = cos(mlx->player->angle) * PLAYER_SPEED;
 	}
-	if (mlx->player->left_right == -1)            // move left
+	if (mlx->player->left_right == -1)
 	{
 		move_x = sin(mlx->player->angle) * PLAYER_SPEED;
 		move_y = -cos(mlx->player->angle) * PLAYER_SPEED;
 	}
-
-	//up and dow
-	if (mlx->player->up_down == 1)   //up
+	if (mlx->player->up_down == 1)
 	{
 		move_y = sin(mlx->player->angle) * PLAYER_SPEED;
 		move_x = cos(mlx->player->angle) * PLAYER_SPEED;
 	}
-	if (mlx->player->up_down == -1)   //up
+	if (mlx->player->up_down == -1)
 	{
 		move_y = -sin(mlx->player->angle) * PLAYER_SPEED;
 		move_x = -cos(mlx->player->angle) * PLAYER_SPEED;
 	}
-
-	move_player(mlx, move_x, move_y);  
+	move_player(mlx, move_x, move_y);
 }

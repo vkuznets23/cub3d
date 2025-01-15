@@ -28,14 +28,14 @@ typedef struct s_player
 
 typedef struct  s_ray
 {
-    int		index;
-    double  ray_angle;
-    double  distance;
-    double	horiz_x;
-	double	horiz_y;
+	int		index;
+	double  ray_angle;
+	double  distance;
+	double	horiz_x;
+    	double	horiz_y;
 	double	vert_x;
 	double	vert_y;
-    int     flag;           //flag for the wall
+	int     flag;           //flag for the wall
 }   t_ray;
 
 
@@ -46,8 +46,8 @@ typedef struct  s_data
     int     pl_y;
     int     w_map;
     int     h_map;
-    char        **ff_c;
-    char        **cc_c;   
+    int       ff_c[3];
+    int        cc_c[3];   
 }   t_data;
 
 typedef struct s_textures
@@ -92,5 +92,7 @@ void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 int get_rgb(int R, int G, int B, int a);
 int	reverse_bytes(int c);
+
+void	ft_exit(t_mlx *mlx);
 
 # endif

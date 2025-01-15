@@ -20,17 +20,17 @@ mlx_texture_t *get_texture(t_mlx *mlx, int flag)
 }
 
 
-void	draw_floor_ceiling(t_mlx *mlx, int ray, int top_px, int bottom_px)	// draw the floor and the ceiling
+void	draw_floor_ceiling(t_mlx *mlx, int ray, int top_px, int bottom_px)
 {
 	int		i;
 	int		c;
 
 	i = bottom_px;
-    c = get_rgb(ft_atoi(mlx->dt->ff_c[0]), ft_atoi(mlx->dt->ff_c[1]), ft_atoi(mlx->dt->ff_c[1]), 255);
+    c = get_rgb(mlx->dt->ff_c[0], mlx->dt->ff_c[1], mlx->dt->ff_c[1], 255);
 	while (i < SCREEN_HEIGHT)
 		my_mlx_pixel_put(mlx, ray, i++, c); // floor
 	i = 0;
-    c = get_rgb(ft_atoi(mlx->dt->cc_c[0]), ft_atoi(mlx->dt->cc_c[1]), ft_atoi(mlx->dt->cc_c[1]), 255);
+    c = get_rgb(mlx->dt->cc_c[0], mlx->dt->cc_c[1], mlx->dt->cc_c[1], 255);
 	while (i < top_px)
 		my_mlx_pixel_put(mlx, ray, i++, c); // ceiling
 }
