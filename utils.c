@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-int get_rgb(int r, int g, int b, int a)
+int	get_rgb(int r, int g, int b, int a)
 {
-    return (r << 24 | g << 16 | b << 8 | a << 0);
+	return (r << 24 | g << 16 | b << 8 | a << 0);
 }
 
 int	reverse_bytes(int c)
@@ -17,15 +17,15 @@ int	reverse_bytes(int c)
 	return (b);
 }
 
-void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)	// put the pixel
+void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 {
-	if (x < 0) // check the x position
+	if (x < 0)
 		return ;
 	else if (x >= SCREEN_WIDTH)
 		return ;
-	if (y < 0) // check the y position
+	if (y < 0)
 		return ;
 	else if (y >= SCREEN_HEIGHT)
 		return ;
-	mlx_put_pixel(mlx->img, x, y, color); // put the pixel
+	mlx_put_pixel(mlx->img, x, y, color);
 }

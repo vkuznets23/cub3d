@@ -79,7 +79,6 @@ int	inter_check(float angle, float *inter, float *step, int is_horizon)
 	return (1);
 }
 
-
 /**
  * Checks whether a given map coordinate is a wall.
  *
