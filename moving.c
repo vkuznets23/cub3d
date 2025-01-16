@@ -8,7 +8,7 @@
  * @keydata The key event data, including the key and its action.
  * @mlx The main game structure containing player and map data.
  */
-void	ft_release(mlx_key_data_t keydata, t_mlx *mlx)
+static void	ft_release(mlx_key_data_t keydata, t_mlx *mlx)
 {
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
 		mlx->player->left_right = 0;

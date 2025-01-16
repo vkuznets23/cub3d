@@ -36,7 +36,8 @@ static float	get_h_inter(t_mlx *mlx, float angl)
 	}
 	mlx->ray->horiz_x = h_x;
 	mlx->ray->horiz_y = h_y;
-	return (sqrt(pow(h_x - mlx->player->player_x, 2) + pow(h_y - mlx->player->player_y, 2)));
+	return (sqrt(pow(h_x - mlx->player->player_x, 2)
+			+ pow(h_y - mlx->player->player_y, 2)));
 }
 
 /**
@@ -75,7 +76,8 @@ static float	get_v_inter(t_mlx *mlx, float angl)
 	}
 	mlx->ray->vert_x = v_x;
 	mlx->ray->vert_y = v_y;
-	return (sqrt(pow(v_x - mlx->player->player_x, 2) + pow(v_y - mlx->player->player_y, 2)));
+	return (sqrt(pow(v_x - mlx->player->player_x, 2)
+			+ pow(v_y - mlx->player->player_y, 2)));
 }
 
 /**

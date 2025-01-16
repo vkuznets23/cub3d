@@ -1,9 +1,8 @@
 #include "cub3d.h"
 
-//setting the game
 void	game_loop(void *MLX)
 {
-	t_mlx *mlx;
+	t_mlx	*mlx;
 
 	mlx = MLX;
 	mlx_delete_image(mlx->mlx_p, mlx->img);
@@ -15,51 +14,54 @@ void	game_loop(void *MLX)
 
 void	init_player(t_mlx *mlx)
 {
-	mlx->player->angle = M_PI;
+	char	c;
+
+	c = mlx->dt->map[mlx->dt->pl_y - 1][mlx->dt->pl_x - 1];
+	if (c == 'N')
+		mlx->player->angle = 3 * M_PI / 2;
+	if (c == 'S')
+		mlx->player->angle = M_PI / 2;
+	if (c == 'E')
+		mlx->player->angle = 0;
+	if (c == 'W')
+		mlx->player->angle = M_PI;
 	mlx->player->player_x = (mlx->dt->pl_x * TILE_SIZE) + TILE_SIZE / 2;
 	mlx->player->player_y = (mlx->dt->pl_y * TILE_SIZE) + TILE_SIZE / 2;
 	mlx->player->fov = (FOV * M_PI) / 180;
-
-    //I WILL NEED TO CHANGE ANGLE DEPENDING ON THE N W S E
-    /*
-    The angle of M_PI / 2 (90 degrees) corresponds to the player facing East.
-    The angle of M_PI (180 degrees) corresponds to the player facing South.
-    The angle of 3 * M_PI / 2 (270 degrees) corresponds to the player facing West.
-    An angle of 0 corresponds to the player facing North or 2 * M_PI if you prefer the full circle*/
-
-    // the rest of the variables are initialized to zero by calloc
 }
 
-void	start_the_game(t_data *dt)
+int	set_textures(t_mlx *mlx)
 {
-	t_mlx	mlx;
-
-	mlx.dt = dt;
-	mlx.player = ft_calloc(1, sizeof(t_player));
-	mlx.ray = (t_ray *)ft_calloc(1, sizeof(t_ray));
-	mlx.textures = ft_calloc(1, sizeof(t_textures));
-	mlx.mlx_p = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3d", 1);
-
-	//TEXTURES
-	mlx.textures->north = mlx_load_png("./textures/wall_north.png");
-	if (!mlx.textures->north)
+	mlx->textures->north = mlx_load_png("./textures/11.png");
+	if (!mlx->textures->north)
 	{
-        	printf("Failed to load north texture");
-        	ft_exit(mlx);
+		ft_putstr_fd("Failed to load north texture", 2);
+		return (1);
 	}
-	mlx.textures->east = mlx_load_png("./textures/wall_east.png");
-	mlx.textures->west = mlx_load_png("./textures/wall_west.png");
-	mlx.textures->south = mlx_load_png("./textures/wall_south.png");
-
-	init_player(&mlx);
-	mlx_loop_hook(mlx.mlx_p, &game_loop, &mlx);
-	mlx_key_hook(mlx.mlx_p, &mlx_key, &mlx);
-	mlx_loop(mlx.mlx_p);
+	mlx->textures->east = mlx_load_png("./textures/12.png");
+	if (!mlx->textures->east)
+	{
+		ft_putstr_fd("Failed to load east texture", 2);
+		return (1);
+	}
+	mlx->textures->west = mlx_load_png("./textures/13.png");
+	if (!mlx->textures->west)
+	{
+		ft_putstr_fd("Failed to load west texture", 2);
+		return (1);
+	}
+	mlx->textures->south = mlx_load_png("./textures/14.png");
+	if (!mlx->textures->south)
+	{
+		ft_putstr_fd("Failed to load soutn texture", 2);
+		return (1);
+	}
+	return (0);
 }
 
-t_data	*init()
+t_data	*init_map(void)
 {
-	t_data   *dt;
+	t_data	*dt;
 
 	dt = ft_calloc(1, sizeof(t_data));
 
@@ -67,37 +69,42 @@ t_data	*init()
 	dt->map = ft_calloc(6, sizeof(char *)); //!!!!!!!
 	dt->map[0] = ft_strdup("1111111111111");
 	dt->map[1] = ft_strdup("1000000100001");
-	dt->map[2] = ft_strdup("100P000100001");
+	dt->map[2] = ft_strdup("1000001N00001");
 	dt->map[3] = ft_strdup("1000000000001");
 	dt->map[4] = ft_strdup("1111111111111");
 	dt->map[5] = NULL;
 
-	dt->ff_c[0] = 112;
-	dt->ff_c[1] = 128;
-	dt->ff_c[2] = 144;
+	dt->ff_c[0] = 52;
+	dt->ff_c[1] = 21;
+	dt->ff_c[2] = 49;
 
 	dt->cc_c[0] = 211;
 	dt->cc_c[1] = 211;
 	dt->cc_c[2] = 211;
 
 
-	//manually set player position / map with and hight according to the map 
-	// cos we dont want to reach "not right"  memory
-	dt->pl_x = 4;
-	dt->pl_y = 3;
-	dt->w_map = 13;
-	dt->h_map = 5;
-
+	find_n_position(dt);
+	dt->w_map = ft_strlen(dt->map[0]);
+	dt->h_map = count_lines(dt->map);
 	return (dt);
 }
 
 int	main(int ac, char **av)
 {
+	t_data	*dt;
+	t_mlx	mlx;
+
 	if (ac != 1) //!!FIX
-		return 1;
-
-	t_data *dt;
-
-	dt = init();
-	start_the_game(dt);
+		return (1);
+	mlx.dt = init_map();
+	mlx.player = ft_calloc(1, sizeof(t_player));
+	mlx.ray = (t_ray *)ft_calloc(1, sizeof(t_ray));
+	mlx.textures = ft_calloc(1, sizeof(t_textures));
+	mlx.mlx_p = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3d", 1);
+	if (set_textures(&mlx) == 1)
+		ft_exit(&mlx);
+	init_player(&mlx);
+	mlx_loop_hook(mlx.mlx_p, &game_loop, &mlx);
+	mlx_key_hook(mlx.mlx_p, &mlx_key, &mlx);
+	mlx_loop(mlx.mlx_p);
 }

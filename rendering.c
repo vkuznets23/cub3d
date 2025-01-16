@@ -78,8 +78,10 @@ void	render_cub(t_mlx *mlx, int ray)
 	double	bottom_px;
 	double	top_px;
 
-	mlx->ray->distance *= cos(nor_angle(mlx->ray->ray_angle - mlx->player->angle));
-	wall_h = (TILE_SIZE / mlx->ray->distance) * ((SCREEN_WIDTH / 2) / tan(mlx->player->fov / 2));
+	mlx->ray->distance *= cos(nor_angle(mlx->ray->ray_angle
+				- mlx->player->angle));
+	wall_h = (TILE_SIZE / mlx->ray->distance) * ((SCREEN_WIDTH / 2)
+			/ tan(mlx->player->fov / 2));
 	bottom_px = (SCREEN_HEIGHT / 2) + (wall_h / 2);
 	top_px = (SCREEN_HEIGHT / 2) - (wall_h / 2);
 	if (bottom_px > SCREEN_HEIGHT)
