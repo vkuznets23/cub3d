@@ -35,26 +35,26 @@ int	set_textures(t_mlx *mlx)
 	mlx->textures->north = mlx_load_png("./textures/11.png");
 	if (!mlx->textures->north)
 	{
-		ft_putstr_fd("Failed to load north texture", 2);
+		ft_putstr_fd("Error\nFailed to load north texture", 2);
 		//free string
 		return (1);
 	}
-	mlx->textures->east = mlx_load_png("./textures/12.png");
+	mlx->textures->east = mlx_load_png("./textures/2.png");
 	if (!mlx->textures->east)
 	{
-		ft_putstr_fd("Failed to load east texture", 2);
+		ft_putstr_fd("Error\nFailed to load east texture", 2);
 		return (1);
 	}
 	mlx->textures->west = mlx_load_png("./textures/13.png");
 	if (!mlx->textures->west)
 	{
-		ft_putstr_fd("Failed to load west texture", 2);
+		ft_putstr_fd("Error\nFailed to load west texture", 2);
 		return (1);
 	}
 	mlx->textures->south = mlx_load_png("./textures/14.png");
 	if (!mlx->textures->south)
 	{
-		ft_putstr_fd("Failed to load soutn texture", 2);
+		ft_putstr_fd("Error\nFailed to load soutn texture", 2);
 		return (1);
 	}
 	return (0);
@@ -102,8 +102,11 @@ int	main(int ac, char **av)
 	mlx.ray = (t_ray *)ft_calloc(1, sizeof(t_ray));
 	mlx.textures = ft_calloc(1, sizeof(t_textures));
 	mlx.mlx_p = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3d", 1);
-	if (!mlx.mlx_p)	
+	if (!mlx.mlx_p)
+	{
+		ft_putstr_fd("Error\n MLX initialization failed", 2);
 		ft_exit(&mlx);
+	}
 	if (set_textures(&mlx) == 1)
 		ft_exit(&mlx);
 	init_player(&mlx);
