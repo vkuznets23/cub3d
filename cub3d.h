@@ -9,8 +9,8 @@
 # include "./parsing/parsing.h"
 # include "MLX42/MLX42.h"
 
-# define SCREEN_WIDTH 1900
-# define SCREEN_HEIGHT 1000
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 # define TILE_SIZE 64
 # define FOV 60
 # define ROTATION_SPEED 0.045
