@@ -22,70 +22,89 @@ void	init_player(t_mlx *mlx)
 	if (c == 'S')
 		mlx->player->angle = M_PI / 2;
 	if (c == 'E')
-		//mlx->player->angle = M_PI;
 		mlx->player->angle = 0;
 	if (c == 'W')
 		mlx->player->angle = M_PI;
-	//	mlx->player->angle = 0;
 	mlx->player->player_x = (mlx->dt->pl_x * TILE_SIZE) + TILE_SIZE / 2;
 	mlx->player->player_y = (mlx->dt->pl_y * TILE_SIZE) + TILE_SIZE / 2;
 	mlx->player->fov = (FOV * M_PI) / 180;
 }
 
-int	set_textures(t_mlx *mlx)
+int	set_textures(t_mlx *mlx, t_parsing *pars)
 {
-	mlx->textures->north = mlx_load_png("./textures/11.png");
+	mlx->textures->north = mlx_load_png(pars->north);
 	if (!mlx->textures->north)
 	{
 		ft_putstr_fd("Error\nFailed to load north texture\n", 2);
-		//free string
+		free_textures_string(pars);
 		return (1);
 	}
-	mlx->textures->east = mlx_load_png("./textures/12.png");
+	mlx->textures->east = mlx_load_png(pars->east);
 	if (!mlx->textures->east)
 	{
 		ft_putstr_fd("Error\nFailed to load east texture\n", 2);
+		free_textures_string(pars);
 		return (1);
 	}
-	mlx->textures->west = mlx_load_png("./textures/13.png");
+	mlx->textures->west = mlx_load_png(pars->west);
 	if (!mlx->textures->west)
 	{
 		ft_putstr_fd("Error\nFailed to load west texture\n", 2);
+		free_textures_string(pars);
 		return (1);
 	}
-	mlx->textures->south = mlx_load_png("./textures/14.png");
+	mlx->textures->south = mlx_load_png(pars->south);
 	if (!mlx->textures->south)
 	{
 		ft_putstr_fd("Error\nFailed to load soutn texture\n", 2);
+		free_textures_string(pars);
 		return (1);
 	}
+	free_textures_string(pars);
 	return (0);
 }
 
-t_data	*init_map(void)
+///
+void	parse_file(t_parsing *pars)
+{
+	validate_file(pars);
+	gather_data(pars, pars->map);
+	validate_map(pars, pars->map + pars->map_start);
+}
+
+void	init_pars_struct(t_parsing *pars, char *file)
+{
+	pars->file = file;
+	pars->cont = NULL;
+	pars->north = NULL;
+	pars->south = NULL;
+	pars->east = NULL;
+	pars->west = NULL;
+	pars->map = NULL;
+	pars->norm_map = NULL;
+	pars->fd = -1;
+	pars->floor[0] = -1;
+	pars->floor[1] = -1;
+	pars->floor[2] = -1;
+	pars->ceiling[0] = -1;
+	pars->ceiling[1] = -1;
+	pars->ceiling[2] = -1;
+	pars->map_start = -1;
+}
+///
+
+t_data	*init_map(t_parsing *pars)
 {
 	t_data	*dt;
 
 	dt = ft_calloc(1, sizeof(t_data));
-
-	//i need to calculate how many lines are in the map????
-	dt->map = ft_calloc(1000, sizeof(char *)); //!!!!!!!
-	dt->map[0] = ft_strdup("1111111111111");
-	dt->map[1] = ft_strdup("1000000100001");
-	dt->map[2] = ft_strdup("1000001S00001");
-	dt->map[3] = ft_strdup("1000000000001");
-	dt->map[4] = ft_strdup("1111111111111");
-	dt->map[5] = NULL;
-
-	dt->ff_c[0] = 52;
-	dt->ff_c[1] = 21;
-	dt->ff_c[2] = 49;
-
-	dt->cc_c[0] = 211;
-	dt->cc_c[1] = 211;
-	dt->cc_c[2] = 211;
-
-
+	dt->map = pars->norm_map;
+	dt->ff_c[0] = pars->floor[0];
+	dt->ff_c[1] = pars->floor[1];
+	dt->ff_c[2] = pars->floor[2];
+	dt->cc_c[0] = pars->ceiling[0];
+	dt->cc_c[1] = pars->ceiling[1];
+	dt->cc_c[2] = pars->ceiling[2];
 	find_n_position(dt);
 	dt->w_map = ft_strlen(dt->map[0]);
 	dt->h_map = count_lines(dt->map);
@@ -96,10 +115,17 @@ int	main(int ac, char **av)
 {
 	t_data	*dt;
 	t_mlx	mlx;
+	t_parsing	pars;
 
-	if (ac != 1) //!!FIX
+	
+	if (ac < 2)
+	{
+		ft_putstr_fd("Error\nUsage: ./cub3d <example.cub>\n", 2);
 		return (1);
-	mlx.dt = init_map();
+	}
+	init_pars_struct(&pars, av[1]);
+	parse_file(&pars);
+	mlx.dt = init_map(&pars);
 	mlx.player = ft_calloc(1, sizeof(t_player));
 	mlx.ray = (t_ray *)ft_calloc(1, sizeof(t_ray));
 	mlx.textures = ft_calloc(1, sizeof(t_textures));
@@ -109,7 +135,7 @@ int	main(int ac, char **av)
 		ft_putstr_fd("Error\n MLX initialization failed\n", 2);
 		ft_exit(&mlx);
 	}
-	if (set_textures(&mlx) == 1)
+	if (set_textures(&mlx, &pars) == 1)
 		ft_exit(&mlx);
 	init_player(&mlx);
 	mlx_loop_hook(mlx.mlx_p, &game_loop, &mlx);

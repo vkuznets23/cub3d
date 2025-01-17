@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <math.h>
 # include "libft/libft.h"
+# include "./parsing/parsing.h"
 # include "MLX42/MLX42.h"
 
 # define SCREEN_WIDTH 1900
@@ -93,4 +94,5 @@ int		count_lines(char **map);
 
 //exit
 void	ft_exit(t_mlx *mlx);
+void	free_textures_string(t_parsing *pars);
 #endif
