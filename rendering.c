@@ -7,9 +7,9 @@ mlx_texture_t	*get_texture(t_mlx *mlx, int flag)
 	{
 		if (mlx->ray->ray_angle > M_PI / 2
 			&& mlx->ray->ray_angle < 3 * (M_PI / 2))
-			return (mlx->textures->east);
-		else
 			return (mlx->textures->west);
+		else
+			return (mlx->textures->east);
 	}
 	else
 	{

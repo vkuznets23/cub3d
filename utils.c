@@ -54,8 +54,8 @@ void	find_n_position(t_data *dt)
 			if (dt->map[y][x] == 'N' || dt->map[y][x] == 'S'
 				|| dt->map[y][x] == 'W' || dt->map[y][x] == 'E')
 			{
-				dt->pl_x = x + 1;
-				dt->pl_y = y + 1;
+				dt->pl_x = x;
+				dt->pl_y = y;
 			}
 			x++;
 		}
