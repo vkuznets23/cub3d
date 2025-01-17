@@ -1,67 +1,49 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/17 14:02:31 by vkuznets          #+#    #+#              #
-#    Updated: 2025/01/17 14:02:33 by vkuznets         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-# Project name
+# Variables
 NAME = cub3d
-
-# Compiler and flags
-CC = cc
-CFLAGS = -I./MLX42/include -I./libft -O2 -Wall -Wextra -Werror # Add optimization and warnings
-LDFLAGS = -L./MLX42/build -lMLX42 -L./libft -lft \
-          -framework Cocoa -framework OpenGL -framework IOKit -lpthread # macOS-specific frameworks
-
-# Source files
 SRCS = main.c moving.c utils.c raycasting.c raycasting_utils.c rendering.c exit.c \
-       ./parsing/capture_data.c ./parsing/debug.c ./parsing/norm_map.c ./parsing/parse_file.c \
-       ./parsing/parsing_utils.c ./parsing/color.c ./parsing/pars_clean.c ./parsing/validate_map.c
+       ./parsing/capture_data.c ./parsing/debug.c ./parsing/norm_map.c ./parsing/parse_file.c ./parsing/parsing_utils.c ./parsing/color.c ./parsing/pars_clean.c ./parsing/validate_map.c
 
 OBJS = $(SRCS:.c=.o)
 
-# Submodules
-MLX42 = MLX42
-LIBFT = libft
+# Paths
+MLX42_DIR = ./MLX42
+LIBFT_DIR = ./libft
+MLX42_BUILD_DIR = $(MLX42_DIR)/build
+MLX42_INCLUDE_DIR = $(MLX42_DIR)/include
+GLFW_LIB = $(MLX42_BUILD_DIR)/_deps/glfw-build/src/libglfw3.a
+LIBFT = $(LIBFT_DIR)/libft.a
 
-# Default target
+# Compiler and flags
+CC = cc
+CFLAGS = -I$(MLX42_INCLUDE_DIR) -I$(LIBFT_DIR)  # Include libft headers
+LDFLAGS = -L./MLX42/build -lMLX42 -lglfw -ldl -lm $(LIBFT)
+#LDFLAGS = $(MLX42_BUILD_DIR)/libmlx42.a $(GLFW_LIB) -ldl -pthread -lm -lX11 $(LIBFT)
+
+
+# Targets
 all: $(NAME)
 
-# Build the project
-$(NAME): $(OBJS) $(MLX42)/build/libmlx42.a $(LIBFT)/libft.a
-	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $(NAME)
 
-# Rule for compiling .c files into .o files
+# Compile object files
 %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Build MLX42 library
-$(MLX42)/build/libmlx42.a:
-	cmake -S $(MLX42) -B $(MLX42)/build
-	cmake --build $(MLX42)/build --parallel
-
-# Build libft library
-$(LIBFT)/libft.a:
-	$(MAKE) -C $(LIBFT)
+# Build libft.a
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
 
 # Clean object files
 clean:
 	rm -f $(OBJS)
-	@rm -rf $(MLX42)/build
-	$(MAKE) -C $(LIBFT) clean
 
-# Full clean, including binaries
+# Clean object files and libft.a
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) -C $(LIBFT) fclean
+	rm -f $(LIBFT)
 
-# Rebuild the project
+# Rebuild everything
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re $(LIBFT)
