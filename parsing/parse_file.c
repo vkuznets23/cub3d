@@ -57,20 +57,39 @@ void	read_file(t_parsing *pars)
 	pars->cont[size] = 0;
 }
 
-void	validate_file(t_parsing *pars)
+void    check_file_name(char *str)
 {
-	pars->fd = open(pars->file, O_RDONLY);
-	if (pars->fd < 0)
-	{
-		ft_putstr_fd("Error\nCannot open provided file\n", 2);
-		exit(1);
-	}
-	read_file(pars);
-	pars->map = ft_split(pars->cont, '\n');
-	free(pars->cont);
-	if (!pars->map)
-	{
-		ft_putstr_fd("Error\nMalloc failure\n", 2);
-		exit(1);
-	}
+    int i;
+
+    i = ft_strlen(str) - 1;
+    if (i < 0)
+    {
+	    ft_putstr_fd("Error\nEmpty file name\n", 2);
+	    exit(1);
+    }
+    while (i >= 0 && str[i] != '.')
+        i--;
+    if (!ft_strncmp(str + i, ".cub", 5))
+            return ;
+    ft_putstr_fd("Error\nProvide .cub file\n", 2);
+    exit(1);
+}
+
+void    validate_file(t_parsing *pars)
+{
+    check_file_name(pars->file);
+    pars->fd = open(pars->file, O_RDONLY);
+    if (pars->fd < 0)
+    {
+        ft_putstr_fd("Error\nCannot open provided file\n", 2);
+        exit(1);
+    }
+    read_file(pars);
+    pars->map = ft_split(pars->cont, '\n');
+    free(pars->cont);
+    if (!pars->map)
+    {
+        ft_putstr_fd("Error\nMalloc failure\n", 2);
+        exit(1);
+    }
 }

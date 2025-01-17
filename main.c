@@ -118,7 +118,7 @@ int	main(int ac, char **av)
 	t_parsing	pars;
 
 	
-	if (ac < 2)
+	if (ac != 2)
 	{
 		ft_putstr_fd("Error\nUsage: ./cub3d <example.cub>\n", 2);
 		return (1);
