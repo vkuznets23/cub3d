@@ -9,7 +9,7 @@
  * @angle The angle in radians.
  * @return The normalized angle in radians.
  */
-float	nor_angle(float angle)
+float	norm_angle(float angle)
 {
 	if (angle < 0)
 		angle += (2 * M_PI);
@@ -19,16 +19,28 @@ float	nor_angle(float angle)
 }
 
 /**
- * Determines the ray's quadrant for x or y direction.
+ * Determines the direction of the ray along the X or Y axis.
  *
- * Based on the given angle, determines whether the ray is moving in the
- * positive or negative direction along the x or y-axis.
+ * Based on the given angle, this function determines whether the ray is moving 
+ * in a positive or negative direction along the specified axis (X or Y).
+ * 
+ * For the X axis:
+ * - Returns 1 if the ray is moving downwards (positive Y direction).
+ * - Returns 0 if the ray is moving upwards (negative Y direction).
+ *
+ * For the Y axis:
+ * - Returns 1 if the ray is moving left (negative X direction).
+ * - Returns 0 if the ray is moving right (positive X direction).
+ **
+ * This is used to determine how the ray interacts with the grid
+ * and to calculate the correct initial intersection and step size for the
+ * raycasting algorithm.
  *
  * @angle The angle in radians.
  * @c A character ('x' or 'y') indicating the axis to check.
  * @return 1 if the ray moves positively along the specified axis, 0 otherwise.
  */
-int	unit_circle(float angle, char c)
+int	get_ray_direction(float angle, char c)
 {
 	if (c == 'x')
 	{
@@ -44,11 +56,17 @@ int	unit_circle(float angle, char c)
 }
 
 /**
- * Adjusts initial intersection and step values based on ray direction.
+ ** Sets the starting point and step direction for ray traversal.
  *
- * For horizontal or vertical intersections, adjusts the starting intersection 
- * position and step size depending on the angle of the ray. It also determines 
- * the direction to step in.
+ * Adjusts the initial intersection position and step size based on the ray's
+ * angle and direction (up/down or left/right). Determines which grid cell 
+ * to check for walls during ray traversal.
+ *
+ * In simple terms:
+ * The function helps to determine:
+ * - Where the ray intersects the first grid line.
+ * - In which direction the ray will move.
+ * - Which grid cell to check for a wall: before or after the intersection point.
  *
  * @angle The angle of the ray in radians.
  * @inter Pointer to the initial intersection coordinate (x or y).
@@ -56,7 +74,7 @@ int	unit_circle(float angle, char c)
  * @is_horizon Set to 1 for horizontal intersections, 0 for vertical.
  * @return -1 for upward or leftward direction, 1 otherwise.
  */
-int	inter_check(float angle, float *inter, float *step, int is_horizon)
+int	set_ray_step(float angle, float *inter, float *step, int is_horizon)
 {
 	if (is_horizon)
 	{

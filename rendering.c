@@ -2,7 +2,7 @@
 
 mlx_texture_t	*get_texture(t_mlx *mlx, int flag)
 {
-	mlx->ray->ray_angle = nor_angle(mlx->ray->ray_angle);
+	mlx->ray->ray_angle = norm_angle(mlx->ray->ray_angle);
 	if (flag == 0)
 	{
 		if (mlx->ray->ray_angle > M_PI / 2
@@ -78,7 +78,7 @@ void	render_cub(t_mlx *mlx, int ray)
 	double	bottom_px;
 	double	top_px;
 
-	mlx->ray->distance *= cos(nor_angle(mlx->ray->ray_angle
+	mlx->ray->distance *= cos(norm_angle(mlx->ray->ray_angle
 				- mlx->player->angle));
 	wall_h = (TILE_SIZE / mlx->ray->distance) * ((SCREEN_WIDTH / 2)
 			/ tan(mlx->player->fov / 2));

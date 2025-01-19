@@ -24,10 +24,10 @@ static float	get_h_inter(t_mlx *mlx, float angl)
 	y_step = TILE_SIZE;
 	x_step = TILE_SIZE / tan(angl);
 	h_y = floor(mlx->player->player_y / TILE_SIZE) * TILE_SIZE;
-	pixel = inter_check(angl, &h_y, &y_step, 1);
+	pixel = set_ray_step(angl, &h_y, &y_step, 1);
 	h_x = mlx->player->player_x + (h_y - mlx->player->player_y) / tan(angl);
-	if ((unit_circle(angl, 'y') && x_step > 0)
-		|| (!unit_circle(angl, 'y') && x_step < 0))
+	if ((get_ray_direction(angl, 'y') && x_step > 0)
+		|| (!get_ray_direction(angl, 'y') && x_step < 0))
 		x_step *= -1;
 	while (wall_hit(h_x, h_y - pixel, mlx))
 	{
@@ -64,10 +64,10 @@ static float	get_v_inter(t_mlx *mlx, float angl)
 	x_step = TILE_SIZE;
 	y_step = TILE_SIZE * tan(angl);
 	v_x = floor(mlx->player->player_x / TILE_SIZE) * TILE_SIZE;
-	pixel = inter_check(angl, &v_x, &x_step, 0);
+	pixel = set_ray_step(angl, &v_x, &x_step, 0);
 	v_y = mlx->player->player_y + (v_x - mlx->player->player_x) * tan(angl);
-	if ((unit_circle(angl, 'x') && y_step < 0)
-		|| (!unit_circle(angl, 'x') && y_step > 0))
+	if ((get_ray_direction(angl, 'x') && y_step < 0)
+		|| (!get_ray_direction(angl, 'x') && y_step > 0))
 		y_step *= -1;
 	while (wall_hit(v_x - pixel, v_y, mlx))
 	{
@@ -102,8 +102,8 @@ void	cast_rays(t_mlx *mlx)
 	while (ray < SCREEN_WIDTH)
 	{
 		mlx->ray->flag = 0;
-		h_inter = get_h_inter(mlx, nor_angle(mlx->ray->ray_angle));
-		v_inter = get_v_inter(mlx, nor_angle(mlx->ray->ray_angle));
+		h_inter = get_h_inter(mlx, norm_angle(mlx->ray->ray_angle));
+		v_inter = get_v_inter(mlx, norm_angle(mlx->ray->ray_angle));
 		if (v_inter <= h_inter)
 			mlx->ray->distance = v_inter;
 		else

@@ -77,9 +77,9 @@ void	mlx_key(mlx_key_data_t keydata, void *ml);
 void	cast_rays(t_mlx *mlx);
 
 //raycasting_utils
-float	nor_angle(float angle);
-int		unit_circle(float angle, char c);
-int		inter_check(float angle, float *inter, float *step, int is_horizon);
+float	norm_angle(float angle);
+int		get_ray_direction(float angle, char c);
+int		set_ray_step(float angle, float *inter, float *step, int is_horizon);
 int		wall_hit(float x, float y, t_mlx *mlx);
 
 //rendering
