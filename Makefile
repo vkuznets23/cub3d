@@ -1,6 +1,6 @@
 # Variables
 NAME = cub3d
-SRCS = main.c moving.c utils.c raycasting.c raycasting_utils.c rendering.c exit.c \
+SRCS = main.c moving.c utils.c raycasting.c raycasting_utils.c rendering.c exit.c initialization.c \
        ./parsing/capture_data.c ./parsing/debug.c ./parsing/norm_map.c ./parsing/parse_file.c ./parsing/parsing_utils.c ./parsing/color.c ./parsing/pars_clean.c ./parsing/validate_map.c
 
 OBJS = $(SRCS:.c=.o)
@@ -16,8 +16,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 # Compiler and flags
 CC = cc
 CFLAGS = -I$(MLX42_INCLUDE_DIR) -I$(LIBFT_DIR)  # Include libft headers
-LDFLAGS = -L./MLX42/build -lMLX42 -lglfw -ldl -lm $(LIBFT)
-#LDFLAGS = $(MLX42_BUILD_DIR)/libmlx42.a $(GLFW_LIB) -ldl -pthread -lm -lX11 $(LIBFT)
+#LDFLAGS = -L./MLX42/build -lMLX42 -lglfw -ldl -lm $(LIBFT)
+LDFLAGS = $(MLX42_BUILD_DIR)/libmlx42.a -ldl -lglfw -pthread -lm -lX11 $(LIBFT)
 
 
 # Targets
