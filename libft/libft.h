@@ -6,16 +6,17 @@
 /*   By: jhirvon <jhirvone@student.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:07:10 by jhirvon           #+#    #+#             */
-/*   Updated: 2024/04/25 09:44:41 by jhirvone         ###   ########.fr       */
+/*   Updated: 2025/01/20 11:56:55 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <limits.h>
+# include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdint.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

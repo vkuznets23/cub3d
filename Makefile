@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/20 13:25:57 by vkuznets          #+#    #+#              #
+#    Updated: 2025/01/20 13:25:58 by vkuznets         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # Variables
 NAME = cub3d
 
@@ -6,11 +18,20 @@ MLX42_DIR = ./MLX42
 LIBFT_DIR = ./libft
 MLX42_BUILD_DIR = $(MLX42_DIR)/build
 MLX42_INCLUDE_DIR = $(MLX42_DIR)/include
-GLFW_LIB = $(MLX42_BUILD_DIR)/_deps/glfw-build/src/libglfw3.a
 LIBFT = $(LIBFT_DIR)/libft.a
-PARS_DIR = ./parsing
+LIBFT_OBJ = $(LIBFT_DIR)/*.o
 
-SRCS = main.c moving.c utils.c raycasting.c raycasting_utils.c rendering.c exit.c initialization.c \
+PARS_DIR = ./parsing
+EXEC_DIR = ./execution
+
+SRCS = main.c \
+	$(EXEC_DIR)/moving.c \
+	$(EXEC_DIR)/utils.c \
+	$(EXEC_DIR)/raycasting.c \
+	$(EXEC_DIR)/raycasting_utils.c \
+	$(EXEC_DIR)/rendering.c \
+	$(EXEC_DIR)/exit.c \
+	$(EXEC_DIR)/initialization.c \
 	$(PARS_DIR)/capture_data.c \
 	$(PARS_DIR)/debug.c \
 	$(PARS_DIR)/norm_map.c \
@@ -24,7 +45,7 @@ OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags
 CC = cc
-CFLAGS = -I$(MLX42_INCLUDE_DIR) -I$(LIBFT_DIR)  # Include libft headers
+CFLAGS = -I$(MLX42_INCLUDE_DIR) -I$(LIBFT_DIR) -Wall -Wextra -Werror  # Include libft headers
 #LDFLAGS = -L./MLX42/build -lMLX42 -lglfw -ldl -lm $(LIBFT)
 LDFLAGS = $(MLX42_BUILD_DIR)/libmlx42.a -ldl -lglfw -pthread -lm -lX11 $(LIBFT)
 
@@ -32,8 +53,12 @@ LDFLAGS = $(MLX42_BUILD_DIR)/libmlx42.a -ldl -lglfw -pthread -lm -lX11 $(LIBFT)
 # Targets
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(OBJS) | $(MLX42_BUILD_DIR)/libmlx42.a
 	$(CC) $(OBJS) $(CFLAGS) $(LDFLAGS) -o $(NAME)
+
+# Ensure MLX42 is built first before linking
+$(MLX42_BUILD_DIR)/libmlx42.a:
+	cmake $(MLX42_DIR) -B $(MLX42_BUILD_DIR) && make -C $(MLX42_BUILD_DIR) -j4 && cd ..
 
 # Compile object files
 %.o: %.c
@@ -45,7 +70,8 @@ $(LIBFT):
 
 # Clean object files
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(LIBFT_OBJ)
+	rm -rf $(MLX42_BUILD_DIR)
 
 # Clean object files and libft.a
 fclean: clean

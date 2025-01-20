@@ -6,29 +6,15 @@
 /*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:29:35 by jhirvone          #+#    #+#             */
-/*   Updated: 2024/04/24 11:29:36 by jhirvone         ###   ########.fr       */
+/*   Updated: 2025/01/20 11:48:08 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 11:29:35 by jhirvone          #+#    #+#             */
-/*   Updated: 2024/04/24 11:29:36 by jhirvone         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "libft.h"
-
-static void *free_array(char **array, int n)
+static void	*free_array(char **array, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i <= n)
@@ -40,10 +26,10 @@ static void *free_array(char **array, int n)
 	return (0);
 }
 
-static int count_words(const char *str, char sepa)
+static int	count_words(const char *str, char sepa)
 {
-	int i;
-	int words;
+	int	i;
+	int	words;
 
 	i = 0;
 	words = 0;
@@ -58,11 +44,11 @@ static int count_words(const char *str, char sepa)
 	return (words);
 }
 
-static char **ft_merge(char **strs, const char *str, char sepa)
+static char	**ft_merge(char **strs, const char *str, char sepa)
 {
-	int i;
-	int j;
-	int n;
+	int	i;
+	int	j;
+	int	n;
 
 	i = 0;
 	n = 0;
@@ -78,7 +64,7 @@ static char **ft_merge(char **strs, const char *str, char sepa)
 				n++;
 			}
 			i++;
-			continue;
+			continue ;
 		}
 		j = 0;
 		while (str[i + j] != sepa && str[i + j])
@@ -93,10 +79,10 @@ static char **ft_merge(char **strs, const char *str, char sepa)
 	return (strs);
 }
 
-char **ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	int	   words;
-	char **strs;
+	int		words;
+	char	**strs;
 
 	words = count_words(s, c);
 	strs = (char **)malloc(sizeof(char *) * (words + 1));

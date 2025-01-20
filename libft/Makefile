@@ -15,12 +15,12 @@ BOBJECTS = $(BSRC:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-AR = ar -rcs
+AR = ar rcs
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(AR) -r $@ $?
+	$(AR) $(NAME) $(OBJECTS)
 
 bonus: .bonus
 
