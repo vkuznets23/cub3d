@@ -1,9 +1,5 @@
 # Variables
 NAME = cub3d
-SRCS = main.c moving.c utils.c raycasting.c raycasting_utils.c rendering.c exit.c initialization.c \
-       ./parsing/capture_data.c ./parsing/debug.c ./parsing/norm_map.c ./parsing/parse_file.c ./parsing/parsing_utils.c ./parsing/color.c ./parsing/pars_clean.c ./parsing/validate_map.c
-
-OBJS = $(SRCS:.c=.o)
 
 # Paths
 MLX42_DIR = ./MLX42
@@ -12,6 +8,19 @@ MLX42_BUILD_DIR = $(MLX42_DIR)/build
 MLX42_INCLUDE_DIR = $(MLX42_DIR)/include
 GLFW_LIB = $(MLX42_BUILD_DIR)/_deps/glfw-build/src/libglfw3.a
 LIBFT = $(LIBFT_DIR)/libft.a
+PARS_DIR = ./parsing
+
+SRCS = main.c moving.c utils.c raycasting.c raycasting_utils.c rendering.c exit.c initialization.c \
+	$(PARS_DIR)/capture_data.c \
+	$(PARS_DIR)/debug.c \
+	$(PARS_DIR)/norm_map.c \
+	$(PARS_DIR)/parse_file.c \
+	$(PARS_DIR)/parsing_utils.c \
+	$(PARS_DIR)/color.c \
+	$(PARS_DIR)/pars_clean.c \
+	$(PARS_DIR)/validate_map.c
+
+OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags
 CC = cc
