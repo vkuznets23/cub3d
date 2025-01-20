@@ -85,6 +85,11 @@ int		wall_hit(float x, float y, t_mlx *mlx);
 //rendering
 void	render_cub(t_mlx *mlx, int ray);
 
+// initilize
+t_data	*init_map(t_parsing *pars);
+int		set_textures(t_mlx *mlx, t_parsing *pars);
+void	init_player(t_mlx *mlx);
+
 //utils
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 int		get_rgb(int R, int G, int B, int a);

@@ -1,5 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 10:47:02 by vkuznets          #+#    #+#             */
+/*   Updated: 2025/01/20 10:49:06 by vkuznets         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
+/**
+ * Function to free allocated strings to hold textures
+ *
+ * @pars struct that holds all parsing data
+*/
 void	free_textures_string(t_parsing *pars)
 {
 	if (pars->north)
@@ -24,6 +41,11 @@ void	free_textures_string(t_parsing *pars)
 	}
 }
 
+/**
+ * Function deletes textures
+ *
+ * @textures truct that holds data about all textures
+*/
 static void	ft_delete_textures(t_textures *textures)
 {
 	if (textures->north)
@@ -36,6 +58,11 @@ static void	ft_delete_textures(t_textures *textures)
 		mlx_delete_texture(textures->east);
 }
 
+/**
+ * Exiting function that cleans up all allocated data
+ *
+ * @mlx Struct tthat holds all neccessary data
+*/
 void	ft_exit(t_mlx *mlx)
 {
 	mlx_delete_image(mlx->mlx_p, mlx->img);

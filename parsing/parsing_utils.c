@@ -81,8 +81,10 @@ bool	flood_fill(char **map, int x, int y, int rows)
 {
 	int	col;
 
-	if (x > 0 && map[x])
+	if (x >= 0 && map[x])
 		col = ft_strlen(map[x]);
+	else
+		return (false);
 	if (x < 0 || x >= rows || y < 0 || y >= col || map[x][y] == ' ')
 	{
 		printf("Escaped to %d %d\n", x, y);
