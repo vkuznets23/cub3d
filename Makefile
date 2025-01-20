@@ -6,7 +6,7 @@
 #    By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 13:25:57 by vkuznets          #+#    #+#              #
-#    Updated: 2025/01/20 13:25:58 by vkuznets         ###   ########.fr        #
+#    Updated: 2025/01/20 13:48:33 by vkuznets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,12 +71,11 @@ $(LIBFT):
 # Clean object files
 clean:
 	rm -f $(OBJS) $(LIBFT_OBJ)
-	rm -rf $(MLX42_BUILD_DIR)
+	rm -rf $(MLX42_BUILD_DIR) $(LIBFT)
 
 # Clean object files and libft.a
 fclean: clean
 	rm -f $(NAME)
-	rm -f $(LIBFT)
 
 # Rebuild everything
 re: fclean all

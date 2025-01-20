@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:12:59 by vkuznets          #+#    #+#             */
-/*   Updated: 2025/01/20 13:13:27 by vkuznets         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:30:37 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	init_mlx_resources(t_mlx *mlx)
 
 int	main(int ac, char **av)
 {
-	//t_data		*dt;
 	t_mlx		mlx;
 	t_parsing	pars;
 
