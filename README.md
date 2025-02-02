@@ -23,9 +23,9 @@ To run the game, simply execute the following command after the build:
 Where map.cub is the map file that defines the maze and the environment. You can create your own .cub file or use the example provided in the repository
 
 ## Controls
-WASD: Move the player
-Arrows left/right: Look around
-ESC: Exit the game
+* WASD: Move the player
+* Arrows left/right: Look around
+* ESC: Exit the game
 
 ## Map Format
 The game uses a .cub file to define the map. A sample map file is included in the repository. Here's a basic overview of the file format
