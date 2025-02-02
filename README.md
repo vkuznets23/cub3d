@@ -45,9 +45,9 @@ C 255,255,255  # Ceiling color
 100001
 111111
 ```
-**NO, SO, EA, WE:** Paths to the wall textures
-**F, C:** RGB values for the floor and ceiling colors
-**Map:** A grid of numbers where 1 represents a wall, and 0 represents an empty space
+* **NO, SO, EA, WE:** Paths to the wall textures
+* **F, C:** RGB values for the floor and ceiling colors
+* **Map:** A grid of numbers where 1 represents a wall, and 0 represents an empty space
 
 ## Acknowledgements
 1. Thanks to Hive Helsinki for providing the learning materials and inspiration for this project.
