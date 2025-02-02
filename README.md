@@ -1,7 +1,7 @@
 # Cub3D
 This project is a simple yet captivating **pseudo-3D game** built using **raycasting**! This project is a fun demonstration of basic game development concepts like rendering, raycasting, and 3D perspective, all within a 2D grid. It features a first-person perspective where the player can navigate through a maze-like environment.
 
-Project is made by [Viktoriia](https://github.com/vkuznets23) and [Jere](https://github.com/Jerehirvonenn)
+Project is made by [vkuznets23](https://github.com/vkuznets23) and [Jerehirvonenn](https://github.com/Jerehirvonenn)
 
 ## Features
 - **Raycasting Engine**: Implements the core of the game’s graphics, simulating a 3D environment using 2D raycasting.
