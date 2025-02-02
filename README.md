@@ -52,3 +52,6 @@ C 255,255,255  # Ceiling color
 ## Acknowledgements
 1. Thanks to Hive Helsinki for providing the learning materials and inspiration for this project.
 2. MinilibX library for graphics handling.
+
+## Contribution
+Contributions are welcome! If you spot any bugs, feel free to open an issue.
