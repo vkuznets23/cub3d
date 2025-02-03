@@ -6,12 +6,12 @@
 #    By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 13:25:57 by vkuznets          #+#    #+#              #
-#    Updated: 2025/01/20 13:48:33 by vkuznets         ###   ########.fr        #
+#    Updated: 2025/01/20 15:00:54 by vkuznets         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Variables
-NAME = cub3d
+NAME = cub3D
 
 # Paths
 MLX42_DIR = ./MLX42
@@ -33,12 +33,12 @@ SRCS = main.c \
 	$(EXEC_DIR)/exit.c \
 	$(EXEC_DIR)/initialization.c \
 	$(PARS_DIR)/capture_data.c \
-	$(PARS_DIR)/debug.c \
 	$(PARS_DIR)/norm_map.c \
 	$(PARS_DIR)/parse_file.c \
 	$(PARS_DIR)/parsing_utils.c \
 	$(PARS_DIR)/color.c \
 	$(PARS_DIR)/pars_clean.c \
+	$(PARS_DIR)/parsing.c \
 	$(PARS_DIR)/validate_map.c
 
 OBJS = $(SRCS:.c=.o)

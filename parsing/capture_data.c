@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   capture_data.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 12:51:21 by jhirvone          #+#    #+#             */
+/*   Updated: 2025/01/20 15:20:37 by jhirvone         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 void	check_and_set_texture(char **texture, char *value, t_parsing *pars)
 {
 	if (*texture)
 		parse_clean_exit(pars, 1, "Error\nDuplicate texture assignment\n");
-	*texture = ft_strdup_trim(value);
+	*texture = ft_strdup_trim(pars, value);
 	if (!*texture)
 		parse_clean_exit(pars, 1, "Error\nMalloc failure\n");
 }
@@ -31,7 +43,7 @@ void	check_str(char *str, t_parsing *pars)
 	else if (str[i] == 'C' && str[i + 1] == ' ')
 		parse_color(str + i + 2, pars->ceiling, pars);
 	else
-		parse_clean_exit(pars, 1, "Error\nInvalid identifier encoutnered\n");
+		parse_clean_exit(pars, 1, "Error\nInvalid identifier encountered\n");
 }
 
 bool	all_filled(t_parsing *pars)

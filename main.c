@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:12:59 by vkuznets          #+#    #+#             */
-/*   Updated: 2025/01/20 13:30:37 by vkuznets         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:27:02 by jhirvone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,6 @@ void	game_loop(void *MLX)
 	cast_rays(mlx);
 	mlx_image_to_window(mlx->mlx_p, mlx->img, 0, 0);
 }
-
-///
-void	parse_file(t_parsing *pars)
-{
-	validate_file(pars);
-	gather_data(pars, pars->map);
-	validate_map(pars, pars->map + pars->map_start);
-}
-
-void	init_pars_struct(t_parsing *pars, char *file)
-{
-	pars->file = file;
-	pars->cont = NULL;
-	pars->north = NULL;
-	pars->south = NULL;
-	pars->east = NULL;
-	pars->west = NULL;
-	pars->map = NULL;
-	pars->norm_map = NULL;
-	pars->fd = -1;
-	pars->floor[0] = -1;
-	pars->floor[1] = -1;
-	pars->floor[2] = -1;
-	pars->ceiling[0] = -1;
-	pars->ceiling[1] = -1;
-	pars->ceiling[2] = -1;
-	pars->map_start = -1;
-}
-///
 
 int	init_mlx_resources(t_mlx *mlx)
 {

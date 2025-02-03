@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:50:26 by vkuznets          #+#    #+#             */
-/*   Updated: 2025/01/20 12:04:30 by vkuznets         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:48:45 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ void	draw_floor_ceiling(t_mlx *mlx, int ray, int top_px, int bottom_px)
 	int		c;
 
 	i = bottom_px;
-	c = get_rgb(mlx->dt->ff_c[0], mlx->dt->ff_c[1], mlx->dt->ff_c[1], 255);
+	c = get_rgb(mlx->dt->ff_c[0], mlx->dt->ff_c[1], mlx->dt->ff_c[2], 255);
 	while (i < SCREEN_HEIGHT)
 		my_mlx_pixel_put(mlx, ray, i++, c);
 	i = 0;
-	c = get_rgb(mlx->dt->cc_c[0], mlx->dt->cc_c[1], mlx->dt->cc_c[1], 255);
+	c = get_rgb(mlx->dt->cc_c[0], mlx->dt->cc_c[1], mlx->dt->cc_c[2], 255);
 	while (i < top_px)
 		my_mlx_pixel_put(mlx, ray, i++, c);
 }

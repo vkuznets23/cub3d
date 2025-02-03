@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 12:51:27 by jhirvone          #+#    #+#             */
+/*   Updated: 2025/01/20 12:51:28 by jhirvone         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
-static int	ft_atoi_color(const char *str, int *j)
+static int	ft_atoi_color(const char *str, int *j, int position)
 {
 	int	i;
 	int	result;
@@ -20,7 +32,9 @@ static int	ft_atoi_color(const char *str, int *j)
 			return (-1);
 		i++;
 	}
-	if (str[i] != '\0' && str[i] != ',')
+	if (str[i] != '\0' && str[i] != ',' && str[i] != ' ')
+		return (-1);
+	if (str[i] == ',' && position == 2)
 		return (-1);
 	*j = i;
 	return (result);
@@ -39,9 +53,12 @@ void	parse_color(char *str, int *color, t_parsing *parse)
 	{
 		if (index == 3)
 			parse_clean_exit(parse, 1, "Error\nToo many colors assigned\n");
-		color[index++] = ft_atoi_color(str, &i);
+		color[index] = ft_atoi_color(str, &i, index);
+		index++;
 		if (color[index - 1] == -1)
-			parse_clean_exit(parse, 1, "Error\nToo many colors assigned\n");
+			parse_clean_exit(parse, 1, "Error\nInvalid color syntax\n");
+		if (color[index - 1] == -2)
+			parse_clean_exit(parse, 1, "Error\nInvalid color syntax\n");
 		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 			i++;
 		if (str[i] == ',')

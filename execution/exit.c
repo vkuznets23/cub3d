@@ -6,7 +6,7 @@
 /*   By: vkuznets <vkuznets@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:47:02 by vkuznets          #+#    #+#             */
-/*   Updated: 2025/01/20 13:56:45 by vkuznets         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:03:40 by vkuznets         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	ft_delete_textures(t_textures *textures)
 /**
  * Exiting function that cleans up all allocated data
  *
- * @mlx Struct that holds all neccessary data
+ * @mlx Struct tthat holds all neccessary data
 */
 void	ft_exit(t_mlx *mlx)
 {

@@ -6,7 +6,7 @@
 /*   By: jhirvone <jhirvone@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:29:35 by jhirvone          #+#    #+#             */
-/*   Updated: 2025/01/20 11:48:08 by vkuznets         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:28:18 by jhirvone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,57 +37,67 @@ static int	count_words(const char *str, char sepa)
 	{
 		if (str[i] != sepa && (str[i + 1] == sepa || str[i + 1] == 0))
 			words++;
-		else if (str[i] == sepa && str[i + 1] == sepa)
+		else if (i == 0 && str[i] == sepa)
+			words++;
+		else if (str[i] == sepa && (str[i + 1] == sepa || str[i + 1] == 0))
 			words++;
 		i++;
 	}
 	return (words);
 }
 
-static char	**ft_merge(char **strs, const char *str, char sepa)
+static int	ft_process_word(char **strs, const char *str, char sepa, int *state)
 {
-	int	i;
 	int	j;
-	int	n;
 
-	i = 0;
-	n = 0;
-	while (str[i])
+	j = 0;
+	while (str[state[0] + j] != sepa && str[state[0] + j])
+		j++;
+	strs[state[1]] = ft_substr(str, state[0], j);
+	if (!(strs[state[1]]))
+		return (0);
+	state[0] += j;
+	state[1]++;
+	return (1);
+}
+
+// state[0] = i, state[1] = n
+static char	**ft_merge(char **strs, const char *str, char sepa, int words)
+{
+	int	state[2];
+
+	state[0] = 0;
+	state[1] = 0;
+	while (str[state[0]] && state[1] < words)
 	{
-		if (str[i] == sepa)
+		if (str[state[0]] == sepa)
 		{
-			if (i == 0 || str[i - 1] == sepa)
+			if (state[0] == 0 || str[state[0] - 1] == sepa)
 			{
-				strs[n] = ft_strdup("");
-				if (!(strs[n]))
-					return (free_array(strs, n));
-				n++;
+				strs[state[1]] = ft_strdup("");
+				if (!(strs[state[1]]))
+					return (free_array(strs, state[1]));
+				state[1]++;
 			}
-			i++;
+			state[0]++;
 			continue ;
 		}
-		j = 0;
-		while (str[i + j] != sepa && str[i + j])
-			j++;
-		strs[n] = ft_substr(str, i, j);
-		if (!(strs[n]))
-			return (free_array(strs, n));
-		n++;
-		i += j;
+		if (!ft_process_word(strs, str, sepa, state))
+			return (free_array(strs, state[1]));
 	}
-	strs[n] = 0;
+	strs[state[1]] = 0;
 	return (strs);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		words;
 	char	**strs;
+	int		words;
 
 	words = count_words(s, c);
 	strs = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!strs)
 		return (0);
-	strs = ft_merge(strs, s, c);
+	strs = ft_merge(strs, s, c, words);
 	return (strs);
 }
